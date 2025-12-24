@@ -1,0 +1,28 @@
+/* 重置基本樣式，設定全黑背景 */
+:root {
+  --primary-red: #b90000; /* 喰種紅 */
+  --bg-color: #050505; /* 深黑背景 */
+  --text-color: #ffffff;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Noto Sans TC", sans-serif;
+  overflow-x: hidden; 
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+ul,h1,h2,p,button {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
