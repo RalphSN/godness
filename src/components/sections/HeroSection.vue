@@ -1,17 +1,27 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
-// --- 1. 視差效果邏輯 (Parallax) ---
-const target = ref(null); // 綁定整個 section
+import heroTitle from '@/assets/img/hero-title.png';
+import heroTitleMobile from '@/assets/mobile/hero-title.png';
+
+const isMobile = ref(false);
+let mql;
+
+const target = ref(null);
 const mouseX = ref(0);
 const mouseY = ref(0);
 
-// 設定靈敏度 (數值越小移動越不明顯，製造層次感)
-const bgFactor = 0.02; // 背景移動幅度小 (遠景)
-const textFactor = 0.05; // 文字移動幅度大 (近景)
+const bgFactor = 0.02;
+const textFactor = 0.05;
+
+const updateIsMobile = () => {
+    isMobile.value = window.matchMedia('(max-width: 768px)').matches;
+};
+
+const titleSrc = computed(() => (isMobile.value ? heroTitleMobile : heroTitle));
+
 
 const handleMouseMove = (e) => {
-    // 計算滑鼠相對於視窗中心的偏移量
     const x = e.clientX - window.innerWidth / 2;
     const y = e.clientY - window.innerHeight / 2;
 
@@ -19,7 +29,6 @@ const handleMouseMove = (e) => {
     mouseY.value = y;
 };
 
-// 計算 CSS transform 樣式
 const bgStyle = computed(() => ({
     transform: `translate(${mouseX.value * bgFactor}px, ${mouseY.value * bgFactor}px) scale(1.1)`
 }));
@@ -28,23 +37,32 @@ const contentStyle = computed(() => ({
     transform: `translate(${mouseX.value * -textFactor}px, ${mouseY.value * -textFactor}px)`
 }));
 
-// --- 2. 滾動提示邏輯 (Scroll Indicator) ---
 const showScroll = ref(true);
 
 const checkScroll = () => {
-    // 如果滾動超過 100px 就隱藏提示
     showScroll.value = window.scrollY < 100;
 };
 
-// --- 生命週期綁定 ---
 onMounted(() => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', checkScroll);
+
+    mql = window.matchMedia('(max-width: 768px)');
+    updateIsMobile();
+
+    // 監聽螢幕變化（新舊瀏覽器兼容）
+    if (mql.addEventListener) mql.addEventListener('change', updateIsMobile);
+    else mql.addListener(updateIsMobile);
 });
 
 onUnmounted(() => {
     window.removeEventListener('mousemove', handleMouseMove);
     window.removeEventListener('scroll', checkScroll);
+
+    if (mql) {
+        if (mql.removeEventListener) mql.removeEventListener('change', updateIsMobile);
+        else mql.removeListener(updateIsMobile);
+    }
 });
 </script>
 
@@ -63,7 +81,7 @@ onUnmounted(() => {
         <div class="content fade-in-up" :style="contentStyle">
             <div class="hero-img"><img src="@/assets/img/hero-img.png" alt=""></div>
             <div class="hero-info">
-                <h1 class="main-title"><img src="@/assets/img/hero-title.png" alt="title"></h1>
+                <h1 class="main-title"><img :src="titleSrc" alt="title"></h1>
                 <p class="subtitle"><img src="@/assets/img/hero-subtitle.png" alt="subtitle"></p>
 
                 <div class="btn-group">
@@ -92,7 +110,6 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
-/* 進場動畫 */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -105,7 +122,6 @@ onUnmounted(() => {
     }
 }
 
-/* 滾動提示動畫 */
 @keyframes scrollWheel {
     0% {
         opacity: 1;
@@ -150,16 +166,22 @@ onUnmounted(() => {
 
 .hero-section {
     position: relative;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     overflow: hidden;
-    /* 防止視差移動時跑出白邊 */
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     padding: 0 20px;
-    background: url('@/assets/img/hero-bg.jpg') no-repeat 100% 100%/cover;
+    padding-top: 95px;
+    background: url('@/assets/img/hero-bg.jpg') no-repeat center center / cover;
+
+    @media (max-width: 768px) {
+        padding: 0;
+        background: url('@/assets/mobile/hero-bg.png') no-repeat center center / cover;
+    }
+
 }
 
 .video-bg {
@@ -170,9 +192,9 @@ onUnmounted(() => {
     height: 100%;
     z-index: -2;
     transition: transform 0.1s linear;
-    /* 讓跟隨滑鼠更平滑 */
 
-    /* 預設背景圖 (當沒有影片時) */
+    display: none;
+
     .fallback-img {
         width: 100%;
         height: 100%;
@@ -188,7 +210,7 @@ onUnmounted(() => {
         top: 0;
         left: 0;
         opacity: 0.6;
-        /* 調整影片亮度 */
+
     }
 }
 
@@ -201,25 +223,37 @@ onUnmounted(() => {
     background: radial-gradient(circle, transparent 0%, #050505 90%);
     z-index: -1;
     pointer-events: none;
-    /* 讓滑鼠事件能穿透到下層 */
 }
 
 .content {
+    width: 100%;
+    padding: 0 5%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     z-index: 1;
     animation: fadeInUp 1s ease-out 0.3s forwards;
     opacity: 0;
     transition: transform 0.1s linear;
 
+
+    @media (max-width: 768px) {
+        flex-direction: column-reverse;
+        padding: 0;
+    }
+
     .hero-img {
         width: 50%;
         animation: floating 5s ease-in-out infinite;
+        max-width: 600px;
+
+        @media (max-width: 768px) {
+            width: 100%;
+        }
 
         img {
             width: 100%;
-            height: 100%;
+            height: auto;
             object-fit: contain;
         }
     }
@@ -230,6 +264,11 @@ onUnmounted(() => {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        max-width: 600px;
+
+        @media (max-width: 768px) {
+            width: 100%;
+        }
 
         img {
             width: 100%;
@@ -263,6 +302,9 @@ onUnmounted(() => {
         flex-direction: column;
         align-items: center;
         gap: 15px;
+        position: absolute;
+        bottom: 0;
+        background: none;
     }
 
     .store-btn {
@@ -286,7 +328,6 @@ onUnmounted(() => {
             font-size: 24px;
         }
 
-        /* 按鈕掃光特效 */
         &::before {
             content: '';
             position: absolute;
@@ -309,7 +350,7 @@ onUnmounted(() => {
     }
 }
 
-/* 滾動提示樣式 */
+
 .scroll-indicator {
     position: absolute;
     bottom: 50px;

@@ -6,28 +6,31 @@ import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 
-// --- 1. 角色資料 (這裡放幾位經典角色) ---
+import evilImg from '@/assets/fakedata/evil.png';
+import holyImg from '@/assets/fakedata/holy.png';
+import fireImg from '@/assets/fakedata/fire.png';
+
 const characters = [
     {
         id: 1,
         name: '金木 研',
         subName: 'Ken Kaneki',
         cv: '花江 夏樹',
-        type: 'rinkaku', // 鱗赫 (紅色)
+        type: 'rinkaku', 
         typeLabel: '鱗赫',
         desc: '「如果不戰鬥的話，就贏不了...」原本是普通的大學生，在事故後被移植了喰種的器官，成為了半喰種。',
-        img: 'https://images.unsplash.com/photo-1630327947180-2646d97e7041?q=80&w=1000&auto=format&fit=crop', // 示意圖
-        color: '#B90000' // 主題色
+        img: evilImg, 
+        color: '#B90000' 
     },
     {
         id: 2,
         name: '霧嶋 董香',
         subName: 'Touka Kirishima',
         cv: '雨宮 天',
-        type: 'ukaku', // 羽赫 (藍紫色)
+        type: 'ukaku', 
         typeLabel: '羽赫',
         desc: '「我要在這裡生活下去。」咖啡廳「安定區」的店員。為了融入人類社會而努力上學，但戰鬥時會展現冷酷的一面。',
-        img: 'https://images.unsplash.com/photo-1549492423-40025024443e?q=80&w=1000&auto=format&fit=crop', // 示意圖
+        img: holyImg, 
         color: '#5C2D91'
     },
     {
@@ -35,15 +38,14 @@ const characters = [
         name: '月山 習',
         subName: 'Shuu Tsukiyama',
         cv: '宮野 真守',
-        type: 'koukaku', // 甲赫 (紫色/金)
+        type: 'koukaku', 
         typeLabel: '甲赫',
         desc: '「Tre... Bien!」被稱為「美食家」的喰種。對金木研有著異常的執著，追求極致的美食體驗。',
-        img: 'https://images.unsplash.com/photo-1614726365723-49faaa55a6d3?q=80&w=1000&auto=format&fit=crop', // 示意圖
+        img: fireImg,
         color: '#7B1FA2'
     }
 ];
 
-// --- 2. 控制邏輯 ---
 const activeIndex = ref(0);
 const swiperRef = ref(null);
 
@@ -55,7 +57,10 @@ const onSlideChange = (swiper) => {
     activeIndex.value = swiper.realIndex;
 };
 
-// 取得目前角色的主題色 (用於動態樣式)
+const getImageUrl = (path) => {
+    return new URL(path, import.meta.url).href;
+};
+
 const activeColor = computed(() => characters[activeIndex.value].color);
 </script>
 
@@ -126,7 +131,6 @@ const activeColor = computed(() => characters[activeIndex.value].color);
 </template>
 
 <style lang="scss" scoped>
-/* 頁面佈局 */
 .char-section {
     position: relative;
     min-height: 100vh;
@@ -137,7 +141,6 @@ const activeColor = computed(() => characters[activeIndex.value].color);
     padding: 80px 0;
 }
 
-/* 背景特效 */
 .bg-gradient {
     position: absolute;
     top: 0;
@@ -145,7 +148,6 @@ const activeColor = computed(() => characters[activeIndex.value].color);
     width: 100%;
     height: 100%;
     transition: background 0.8s ease;
-    /* 顏色切換過渡 */
     z-index: 0;
 }
 
@@ -188,7 +190,6 @@ const activeColor = computed(() => characters[activeIndex.value].color);
     }
 }
 
-/* 內容區塊 Flex 佈局 */
 .char-content {
     display: flex;
     align-items: center;
@@ -201,7 +202,6 @@ const activeColor = computed(() => characters[activeIndex.value].color);
     }
 }
 
-/* 左側：立繪 */
 .char-visual {
     flex: 1;
     width: 100%;
@@ -224,9 +224,7 @@ const activeColor = computed(() => characters[activeIndex.value].color);
             max-height: 100%;
             max-width: 100%;
             object-fit: contain;
-            /* 加上一點投影增加立體感 */
             filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
-            /* 這裡可以加上進場動畫 */
             animation: float 6s ease-in-out infinite;
         }
     }
@@ -244,10 +242,8 @@ const activeColor = computed(() => characters[activeIndex.value].color);
     }
 }
 
-/* 右側：資訊 */
 .char-info {
     flex: 0 0 450px;
-    /* 固定寬度 */
     color: white;
 
     @media (max-width: 960px) {
@@ -256,7 +252,6 @@ const activeColor = computed(() => characters[activeIndex.value].color);
         text-align: center;
     }
 
-    /* 資訊切換動畫 */
     .info-inner {
         animation: slideIn 0.5s ease-out;
     }
@@ -349,7 +344,6 @@ const activeColor = computed(() => characters[activeIndex.value].color);
     padding-top: 20px;
 }
 
-/* 導航控制列 */
 .nav-buttons {
     display: flex;
     align-items: center;

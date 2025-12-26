@@ -15,8 +15,8 @@ import '@/assets/main.css';
     <NavBar />
     <main>
       <HeroSection />
-      <NewsSection />
-      <CharacterSection />
+      <NewsSection v-show="false" />
+      <CharacterSection v-show="false" />
       <FeaturesSection />
     </main>
     <FooterSection />

@@ -1,20 +1,28 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import logo from '@/assets/img/nav-logo.png';
+import facebook from '@/assets/img/facebook.png';
+import discord from '@/assets/img/discord.png';
+import youtube from '@/assets/img/youtube.png';
 
 const isScrolled = ref(false);
 const currentSection = ref('');
 const isMenuOpen = ref(false);
 
-// 1. 把 observer 變數宣告在最外面，這樣 onUnmounted 才讀得到
 let observer = null;
 
 const menuItems = [
     { name: '首頁', link: '#hero' },
-    { name: '消息', link: '#news' },
-    { name: '角色', link: '#character' },
+    // { name: '消息', link: '#news' },
+    // { name: '角色', link: '#character' },
     { name: '特色', link: '#features' },
 ];
+
+const socialLinks = [
+    { name: 'Facebook', icon: facebook, url: 'https://www.facebook.com/' },
+    { name: 'Discord', icon: discord, url: 'https://discord.com/' },
+    { name: 'YouTube', icon: youtube, url: 'https://www.youtube.com/' },
+]
 
 const handleScroll = () => {
     isScrolled.value = window.scrollY > 50;
@@ -27,18 +35,14 @@ const toggleMenu = () => {
 onMounted(() => {
     window.addEventListener('scroll', handleScroll);
 
-    // 2. 修改判定邏輯：使用 rootMargin 設定一條「中間基準線」
     const observerOptions = {
         root: null,
-        // 這行的意思是：把判定範圍縮小到螢幕正中間的一條線
-        // 只要區塊碰到螢幕中間，就會變成 active，不管區塊長短都有效
         rootMargin: '-50% 0px -50% 0px',
         threshold: 0
     };
 
     observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-            // 只要碰到中間那條線 (isIntersecting)
             if (entry.isIntersecting) {
                 currentSection.value = `#${entry.target.id}`;
             }
@@ -55,7 +59,6 @@ onMounted(() => {
 
 onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll);
-    // 3. 這裡加個保險，確定 observer 存在才斷開
     if (observer) {
         observer.disconnect();
     }
@@ -80,6 +83,13 @@ onUnmounted(() => {
                         :class="{ 'active': currentSection === item.link }">{{ item.name }}</a>
                 </li>
             </ul>
+            <ul class="social">
+                <li v-for="social in socialLinks" :key="social.name">
+                    <a :href="social.url" target="_blank">
+                        <img :src="social.icon" :alt="social.name">
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
 </template>
@@ -90,7 +100,7 @@ onUnmounted(() => {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 0 40px;
+    padding: 10px 40px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -100,6 +110,7 @@ onUnmounted(() => {
 
     @media (max-width: 768px) {
         justify-content: space-between;
+        padding: 10px;
     }
 
     &.scrolled {
@@ -133,7 +144,7 @@ onUnmounted(() => {
 
         /* 變成 X 的動畫 */
         &.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
+            transform: rotate(45deg) translate(5px, 8px);
         }
 
         &.active span:nth-child(2) {
@@ -141,7 +152,7 @@ onUnmounted(() => {
         }
 
         &.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -6px);
+            transform: rotate(-45deg) translate(5px, -8px);
         }
 
         @media (max-width: 768px) {
@@ -153,6 +164,8 @@ onUnmounted(() => {
     .menu-container {
         display: flex;
         align-items: center;
+        justify-content: space-between;
+        width: 100%;
         gap: 30px;
 
         /* 手機版樣式 (預設隱藏，滑出顯示) */
@@ -169,7 +182,6 @@ onUnmounted(() => {
 
             &.open {
                 right: 0;
-                /* 滑出來 */
             }
 
             .menu {
@@ -185,10 +197,11 @@ onUnmounted(() => {
         gap: 40px;
 
         a {
-            font-size: 20px;
+            font-size: clamp(0.8rem, 0.8rem + 1vw, 1.5rem);
             color: gray;
             transition: 0.35s;
             position: relative;
+            white-space: nowrap;
 
             &::after {
                 content: "";
@@ -211,7 +224,7 @@ onUnmounted(() => {
                 left: 0;
                 bottom: -5px;
                 width: 100%;
-                height: 3px;
+                height: 1px;
                 background-color: #3b6eb8;
                 transform: scaleX(0);
                 transition: transform 0.3s ease;
@@ -233,6 +246,27 @@ onUnmounted(() => {
         li:last-child {
             a:after {
                 display: none;
+            }
+        }
+    }
+
+    .social {
+        display: flex;
+        gap: 12px;
+
+        a {
+            display: flex;
+            transition: 0.35s ease;
+            
+            img {
+                width: 36px;
+                height: 36px;
+                object-fit: contain;
+            }
+
+            &:hover {
+                filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+                transform: scale(1.05);
             }
         }
     }
