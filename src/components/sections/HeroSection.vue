@@ -20,7 +20,6 @@ const updateIsMobile = () => {
 
 const titleSrc = computed(() => (isMobile.value ? heroTitleMobile : heroTitle));
 
-
 const handleMouseMove = (e) => {
     const x = e.clientX - window.innerWidth / 2;
     const y = e.clientY - window.innerHeight / 2;
@@ -50,7 +49,6 @@ onMounted(() => {
     mql = window.matchMedia('(max-width: 768px)');
     updateIsMobile();
 
-    // 監聽螢幕變化（新舊瀏覽器兼容）
     if (mql.addEventListener) mql.addEventListener('change', updateIsMobile);
     else mql.addListener(updateIsMobile);
 });
@@ -85,12 +83,15 @@ onUnmounted(() => {
                 <p class="subtitle"><img src="@/assets/img/hero-subtitle.png" alt="subtitle"></p>
 
                 <div class="btn-group">
-                    <button class="store-btn ios">
-                        <img src="@/assets/img/apple.png" alt="">
-                    </button>
-                    <button class="store-btn android">
-                        <img src="@/assets/img/google.png" alt="">
-                    </button>
+                    <button class="store-btn apk"><img src="@/assets/img/apk.png" alt=""></button>
+                    <div class="store-btns">
+                        <button class="store-btn ios">
+                            <img src="@/assets/img/apple.png" alt="">
+                        </button>
+                        <button class="store-btn android">
+                            <img src="@/assets/img/google.png" alt="">
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -164,6 +165,20 @@ onUnmounted(() => {
     }
 }
 
+@keyframes autoGlint {
+    0% {
+        left: -150%;
+    }
+
+    20% {
+        left: 150%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
 .hero-section {
     position: relative;
     min-height: 100vh;
@@ -174,7 +189,6 @@ onUnmounted(() => {
     align-items: center;
     text-align: center;
     padding: 0 20px;
-    padding-top: 95px;
     background: url('@/assets/img/hero-bg.jpg') no-repeat center center / cover;
 
     @media (max-width: 768px) {
@@ -228,6 +242,7 @@ onUnmounted(() => {
 .content {
     width: 100%;
     padding: 0 5%;
+    margin-top: 95px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -289,9 +304,10 @@ onUnmounted(() => {
 
 .btn-group {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     background: url('@/assets/img/btn-bg.png') no-repeat center center/contain;
     max-width: 80%;
     width: 100%;
@@ -303,14 +319,27 @@ onUnmounted(() => {
         align-items: center;
         gap: 15px;
         position: absolute;
-        bottom: 0;
+        bottom: 100px;
         background: none;
+    }
+
+    @media (max-width: 430px) {
+        bottom: 30px;
+    }
+
+    .store-btns {
+        display: flex;
+        gap: 10px;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
     }
 
     .store-btn {
         cursor: pointer;
         backdrop-filter: blur(5px);
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition: transform 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -318,34 +347,38 @@ onUnmounted(() => {
         position: relative;
         overflow: hidden;
 
+        @media (max-width: 768px) {
+            width: 160px;
+        }
+
         img {
             width: 100%;
             height: auto;
             object-fit: contain;
         }
 
-        .icon {
-            font-size: 24px;
-        }
-
         &::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: -150%;
             width: 50%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             transform: skewX(-25deg);
-            transition: 0.5s;
+            animation: autoGlint 4s infinite;
         }
 
         &:hover {
-            transform: translateY(-3px);
+            transform: scale(1.05);
+        }
+    }
 
-            &::before {
-                left: 150%;
-            }
+    .apk {
+        width: 50%;
+
+        @media (max-width: 768px) {
+            width: 170px;
         }
     }
 }
@@ -353,7 +386,7 @@ onUnmounted(() => {
 
 .scroll-indicator {
     position: absolute;
-    bottom: 50px;
+    bottom: 120px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -362,6 +395,11 @@ onUnmounted(() => {
     gap: 10px;
     transition: opacity 0.5s;
     z-index: 10;
+
+    @media (max-width: 768px) {
+        bottom: 40px;
+        transform: scale(0.7) translateX(-50%);
+    }
 
     &.hidden {
         opacity: 0;
@@ -374,6 +412,7 @@ onUnmounted(() => {
         border: 2px solid rgba(255, 255, 255, 0.6);
         border-radius: 20px;
         position: relative;
+
 
         .wheel {
             width: 4px;

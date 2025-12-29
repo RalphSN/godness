@@ -6,9 +6,10 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/godness/',
   plugins: [
     vue(),
-    vueDevTools(),
+    // vueDevTools(), // Vue開發者工具面板
   ],
   resolve: {
     alias: {

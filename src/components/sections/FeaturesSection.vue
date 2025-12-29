@@ -53,12 +53,12 @@ const swiperOptions = {
     centeredSlides: true,
     slidesPerView: 'auto',
     loopedSlides: 4,
-
+    watchSlidesProgress: true,
     coverflowEffect: {
         rotate: 0,
         stretch: 0,
         depth: 200,
-        modifier: 1,
+        modifier: 1.2,
         slideShadows: false,
     },
     navigation: {
@@ -67,7 +67,11 @@ const swiperOptions = {
     },
     breakpoints: {
         768: {
-            coverflowEffect: { depth: 300, stretch: 50 }
+            coverflowEffect: {
+                depth: 300,
+                stretch: 50,
+                modifier: 1
+            }
         }
     }
 };
@@ -110,11 +114,6 @@ const swiperOptions = {
     padding: 100px 0;
     overflow: hidden;
     background: url('@/assets/img/feature-bg.jpg') no-repeat center center / cover;
-
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
 }
 
 .container {
@@ -165,13 +164,11 @@ const swiperOptions = {
         width: 800px;
         aspect-ratio: 1000 / 562;
         position: relative;
-        transition: all 0.3s;
         opacity: 0.4;
-        transform: scale(0.9);
+        transition: opacity 0.3s ease;
 
         &.swiper-slide-active {
             opacity: 1;
-            transform: scale(1);
         }
 
         @media (max-width: 768px) {
@@ -200,7 +197,6 @@ const swiperOptions = {
             width: 96%;
             height: auto;
             object-fit: contain;
-            transition: transform 0.5s;
             z-index: 2;
         }
 
@@ -232,7 +228,6 @@ const swiperOptions = {
         .card-img-box {
             flex: auto;
             height: 60%;
-            clip-path: none;
         }
     }
 }
@@ -256,10 +251,6 @@ const swiperOptions = {
         background: var(--primary-red);
         color: white;
     }
-
-    @media (max-width: 768px) {
-        display: none;
-    }
 }
 
 .custom-pagination {
@@ -271,9 +262,7 @@ const swiperOptions = {
     display: flex;
     justify-content: center;
     align-items: center;
-
     z-index: 10;
-
     background: url('@/assets/img/custom-bg.png') no-repeat center center / cover;
     padding: 5px 0;
 

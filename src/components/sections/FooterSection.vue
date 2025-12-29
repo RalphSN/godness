@@ -1,11 +1,9 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 
-// --- 回到頂部按鈕邏輯 ---
 const showBackTop = ref(false);
 
 const handleScroll = () => {
-    // 當滾動超過 500px 時顯示按鈕
     showBackTop.value = window.scrollY > 500;
 };
 
@@ -18,197 +16,234 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 </script>
 
 <template>
-    <footer class="footer-section">
-        <div class="footer-line"></div>
-
-        <div class="container">
-            <div class="social-links">
-                <a href="#" class="social-btn fb" title="Facebook">FB</a>
-                <a href="#" class="social-btn yt" title="YouTube">YT</a>
-                <a href="#" class="social-btn dc" title="Discord">DC</a>
-                <a href="#" class="social-btn ig" title="Instagram">IG</a>
-            </div>
-
-            <div class="footer-brand">
-                <h2 class="footer-logo">TOKYO GHOUL</h2>
-                <p class="slogan">正版授權 3D 戰鬥手遊</p>
-            </div>
-
-            <div class="footer-legal">
-                <div class="legal-links">
-                    <a href="#">使用者服務條款</a>
-                    <span class="divider">|</span>
-                    <a href="#">隱私權政策</a>
-                    <span class="divider">|</span>
-                    <a href="#">客服中心</a>
-                </div>
-                <p class="copyright">
-                    © Sui Ishida/Shueisha, Tokyo Ghoul Production Committee<br>
-                    © 2025 Komoe Game Inc. All Rights Reserved.
-                </p>
-                <div class="rating">
-                    <span class="rating-badge">15+</span>
-                    <span class="rating-text">本遊戲內容涉及暴力、恐怖、不當言語。請注意使用時間，避免沉迷。</span>
-                </div>
-            </div>
+    <footer class="game-footer">
+        <div class="footer-header">
+            <h3>《女神檔案》</h3>
+            <p>遊戲類型：超人氣動漫改編奇幻RPG <span>|</span> 發行平台：App Store、Google Play</p>
         </div>
 
-        <button class="back-top-btn" :class="{ show: showBackTop }" @click="scrollToTop" aria-label="Back to Top">
-            ↑
+        <div class="footer-divider"></div>
+
+        <div class="footer-main">
+            <div class="footer-left">
+                <div class="game-info">
+                    <img src="@/assets/img/footer-logo.png" alt="Game Icon" class="game-icon">
+                    <img src="@/assets/img/footer-title.png" alt="Game Logo" class="game-logo">
+                </div>
+                <img src="@/assets/img/rank.png" alt="Rating 15+" class="rating-img">
+            </div>
+
+            <div class="footer-right">
+                <ul class="legal-list">
+                    <li><span>◆</span>《女神檔案》依遊戲軟體分級管理辦法分類為輔15級。</li>
+                    <li><span>◆</span> 遊戲部分情節涉及暴力、不當言語，十五歲以上之人始得使用。</li>
+                    <li><span>◆</span> 本遊戲為免費使用，內另有提供購買虛擬遊戲幣、物品等付費服務。</li>
+                </ul>
+                <!--<div class="privacy-link">
+                    <a href="#">隱私政策</a>
+                </div>-->
+            </div>
+
+            <div class="footer-blank"></div>
+        </div>
+
+        <button class="back-top-btn" :class="{ show: showBackTop }" @click="scrollToTop">
+           <img src="@/assets/img/go-top.png" alt="至頂部按鈕">
         </button>
     </footer>
 </template>
 
 <style lang="scss" scoped>
-.footer-section {
-    background-color: #050505;
-    color: #666;
-    text-align: center;
-    position: relative;
-    padding-bottom: 40px;
-}
-
-.footer-line {
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
-    margin-bottom: 60px;
-}
-
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* 社群按鈕 */
-.social-links {
+.game-footer {
+    background-color: #1f2021;
+    color: #a0a0a0;
+    padding: 40px 0;
+    font-family: "Microsoft JhengHei", sans-serif;
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 40px;
+    flex-direction: column;
+    align-items: center;
+}
 
-    .social-btn {
-        width: 50px;
-        height: 50px;
-        border: 1px solid #333;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #999;
-        font-weight: bold;
-        transition: 0.3s;
-        background: #111;
+.footer-header {
+    text-align: center;
+    margin-bottom: 25px;
 
-        &:hover {
-            background: var(--primary-red);
-            border-color: var(--primary-red);
-            color: white;
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(185, 0, 0, 0.4);
+    h3 {
+        color: #cccccc;
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+
+    p {
+        font-size: 0.9rem;
+        color: #888;
+
+        @media (max-width: 768px) {
+            font-size: 0.75rem;
+        }
+
+        span {
+            margin: 0 10px;
+            color: #444;
         }
     }
 }
 
-/* 品牌區 */
-.footer-brand {
-    margin-bottom: 40px;
+.footer-divider {
+    width: 100%;
+    // max-width: 1200px;
+    height: 1.1px;
+    background-color: #636363;
+    margin-bottom: 30px;
+}
 
-    .footer-logo {
-        color: white;
-        font-style: italic;
-        margin: 0 0 10px;
-        font-size: 28px;
-        letter-spacing: 2px;
+.footer-main {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .game-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .game-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background-color: #333;
+        }
+
+        .game-logo {
+            height: 60px;
+            width: auto;
+            min-width: 100px;
+        }
     }
 
-    .slogan {
-        font-size: 14px;
-        letter-spacing: 5px;
-        color: var(--primary-red);
+    .rating-img {
+        height: 55px;
+        width: auto;
     }
 }
 
-/* 法律條款與分級 */
-.footer-legal {
-    border-top: 1px solid #222;
-    padding-top: 30px;
+.footer-right {
+    text-align: center;
 
-    .legal-links {
-        margin-bottom: 20px;
+    .legal-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
 
-        a {
-            color: #999;
-            font-size: 14px;
-            transition: 0.3s;
+        li {
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: #888;
+            white-space: nowrap;
+            text-align: center;
 
-            &:hover {
-                color: white;
+            @media (max-width: 768px) {
+                font-size: 0.75rem;
             }
         }
 
-        .divider {
-            margin: 0 10px;
-            color: #333;
+        span {
+            font-size: 1rem;
+            transform: scale(2);
         }
     }
 
-    .copyright {
-        font-size: 12px;
-        line-height: 1.6;
-        margin-bottom: 20px;
-    }
+    .privacy-link {
+        margin-top: 10px;
+        text-align: center;
 
-    .rating {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        font-size: 12px;
+        a {
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 1.1rem;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
 
-        .rating-badge {
-            background: black;
-            border: 1px solid #666;
-            color: white;
-            padding: 2px 6px;
-            font-weight: bold;
+            &:hover {
+                color: #fff;
+                border-bottom: 1px solid #fff;
+            }
         }
     }
 }
 
-/* 回到頂部按鈕樣式 */
+.footer-blank {
+    width: 310px; // 協助對位
+
+    @media(max-width: 768px) {
+        display: none;
+    }
+}
+
 .back-top-btn {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    width: 50px;
-    height: 50px;
-    background: var(--primary-red);
-    color: white;
-    border: none;
-    font-size: 24px;
+    width: 45px;
+    height: 45px;
+    border-radius: 15px;
+    background: #2222225b;
+    color: #fff;
+    border: 1px solid #94e1ffd8;
     cursor: pointer;
     z-index: 99;
-
-    /* 斜切角造型 */
-    clip-path: polygon(20% 0, 100% 0, 100% 80%, 80% 100%, 0 100%, 0 20%);
-
-    /* 預設隱藏 (往下移) */
     opacity: 0;
     transform: translateY(20px);
-    pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+
+    img {
+        width: 24px;
+        height: 30px;
+    }
 
     &.show {
         opacity: 1;
         transform: translateY(0);
-        pointer-events: auto;
     }
 
     &:hover {
-        background: white;
-        color: var(--primary-red);
-        transform: scale(1.1);
+        background: #333;
+        border-color: #94E0FF;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-main {
+        flex-direction: column;
+        gap: 25px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .footer-right .legal-list li {
+        white-space: normal;
+        text-align: left;
+    }
+
+    .footer-header p span {
+        display: none;
+    }
+
+    .footer-header p {
+        line-height: 1.6;
     }
 }
 </style>
