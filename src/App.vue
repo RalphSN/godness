@@ -1,8 +1,8 @@
 <script setup>
 import NavBar from '@/components/common/NavBar.vue';
 import HeroSection from '@/components/sections/HeroSection.vue';
-import NewsSection from '@/components/sections/NewsSection.vue';
-import CharacterSection from '@/components/sections/CharacterSection.vue';
+// import NewsSection from '@/components/sections/NewsSection.vue';
+// import CharacterSection from '@/components/sections/CharacterSection.vue';
 import FeaturesSection from '@/components/sections/FeaturesSection.vue';
 // 1. 引入 Footer
 import FooterSection from '@/components/sections/FooterSection.vue';
