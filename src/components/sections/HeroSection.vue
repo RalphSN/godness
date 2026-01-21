@@ -4,6 +4,9 @@ import { ref, onMounted, onUnmounted, computed } from 'vue';
 import heroTitle from '@/assets/img/hero-title.png';
 import heroTitleMobile from '@/assets/mobile/hero-title.png';
 
+let apkDL = () => {
+    location.href = "https://cdn.g18apk.xyz/gnsr15cps/NS-NSR15.apk";
+}
 const isMobile = ref(false);
 let mql;
 
@@ -83,15 +86,15 @@ onUnmounted(() => {
                 <p class="subtitle"><img src="@/assets/img/hero-subtitle.png" alt="subtitle"></p>
 
                 <div class="btn-group">
-                    <button class="store-btn apk"><img src="@/assets/img/apk.png" alt=""></button>
-                    <div class="store-btns">
+                    <button class="store-btn apk" @click="apkDL"><img src="@/assets/img/apk.png" alt=""></button>
+                    <!-- <div class="store-btns">
                         <button class="store-btn ios">
                             <img src="@/assets/img/apple.png" alt="">
                         </button>
                         <button class="store-btn android">
                             <img src="@/assets/img/google.png" alt="">
                         </button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

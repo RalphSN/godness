@@ -39,9 +39,9 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
                     <li><span>◆</span> 遊戲部分情節涉及暴力、不當言語，十五歲以上之人始得使用。</li>
                     <li><span>◆</span> 本遊戲為免費使用，內另有提供購買虛擬遊戲幣、物品等付費服務。</li>
                 </ul>
-                <!--<div class="privacy-link">
-                    <a href="#">隱私政策</a>
-                </div>-->
+                <div class="privacy-link">
+                    <a href="https://www.luckywings.net/privacy">隱私政策</a>
+                </div>
             </div>
 
             <div class="footer-blank"></div>

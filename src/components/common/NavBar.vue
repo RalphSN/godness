@@ -19,9 +19,9 @@ const menuItems = [
 ];
 
 const socialLinks = [
-    { name: 'Facebook', icon: facebook, url: 'https://www.facebook.com/' },
-    { name: 'Discord', icon: discord, url: 'https://discord.com/' },
-    { name: 'YouTube', icon: youtube, url: 'https://www.youtube.com/' },
+    // { name: 'Facebook', icon: facebook, url: 'https://www.facebook.com/' },
+    // { name: 'Discord', icon: discord, url: 'https://discord.com/' },
+    // { name: 'YouTube', icon: youtube, url: 'https://www.youtube.com/' },
 ]
 
 watch(isMenuOpen, (val) => {
