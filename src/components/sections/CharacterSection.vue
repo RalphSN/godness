@@ -1,236 +1,692 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { EffectFade, Navigation, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/effect-fade';
-import 'swiper/css/navigation';
+import { ref, computed, onMounted, nextTick } from 'vue';
 
-import evilImg from '@/assets/fakedata/evil.png';
-import holyImg from '@/assets/fakedata/holy.png';
-import fireImg from '@/assets/fakedata/fire.png';
-
+// --- 資料模擬區 ---
 const characters = [
     {
         id: 1,
-        name: '金木 研',
-        subName: 'Ken Kaneki',
-        cv: '花江 夏樹',
-        type: 'rinkaku', 
-        typeLabel: '鱗赫',
-        desc: '「如果不戰鬥的話，就贏不了...」原本是普通的大學生，在事故後被移植了喰種的器官，成為了半喰種。',
-        img: evilImg, 
-        color: '#B90000' 
+        name: '厄瑞波斯',
+        enName: 'Erebus',
+        cv: '津田 健次郎',
+        profile: '誕生於混沌 / 黑暗源頭 / 虛無之主',
+        quote: '「光芒不過是短暫的假象，\n　唯有永恆的黑暗才是真理。」',
+        desc: '執掌影之國度的黑暗邪神（男神）。他誕生於宇宙初開的虛無之中，認為萬物最終都將回歸沉寂。性格冷酷且優雅，擁有操縱人心恐懼與陰影的能力，是眾神畏懼的古老存在。',
+        img: new URL('@/assets/fakedata/evil.png', import.meta.url).href,
+        thumb: new URL('@/assets/fakedata/evil.png', import.meta.url).href,
     },
     {
         id: 2,
-        name: '霧嶋 董香',
-        subName: 'Touka Kirishima',
-        cv: '雨宮 天',
-        type: 'ukaku', 
-        typeLabel: '羽赫',
-        desc: '「我要在這裡生活下去。」咖啡廳「安定區」的店員。為了融入人類社會而努力上學，但戰鬥時會展現冷酷的一面。',
-        img: holyImg, 
-        color: '#5C2D91'
+        name: '艾露西亞',
+        enName: 'Elusia',
+        cv: '水瀨 祈',
+        profile: '黎明之光 / 聖域守護者 / 純潔女神',
+        quote: '「願暖陽照亮你靈魂的陰霾，\n　指引迷途者歸向終途。」',
+        desc: '象徵希望與救贖的神聖光之女神。居住於雲端之上的白銀宮殿，負責守護世間的善良靈魂。她的聖光不僅能治癒傷痛，更能驅散最深沉的詛咒，是受人類信奉最廣的神祇。',
+        img: new URL('@/assets/fakedata/light.png', import.meta.url).href,
+        thumb: new URL('@/assets/fakedata/light.png', import.meta.url).href,
     },
     {
         id: 3,
-        name: '月山 習',
-        subName: 'Shuu Tsukiyama',
-        cv: '宮野 真守',
-        type: 'koukaku', 
-        typeLabel: '甲赫',
-        desc: '「Tre... Bien!」被稱為「美食家」的喰種。對金木研有著異常的執著，追求極致的美食體驗。',
-        img: fireImg,
-        color: '#7B1FA2'
-    }
+        name: '貝蘿娜',
+        enName: 'Bellona',
+        cv: '澤城 美雪',
+        profile: '鋼鐵意志 / 戰場所向 / 鬥爭女神',
+        quote: '「弱者尋找藉口，\n　強者在鮮血中鑄就傳奇。」',
+        desc: '主宰戰爭與鬥爭的武勇女神。她不站在任何正義或邪惡的一方，只眷顧擁有強大意志的鬥士。性格剛毅果決，手持永不折斷的戰旗，在每一次文明的更迭與戰亂中都能見到她的身影。',
+        img: new URL('@/assets/fakedata/fight.png', import.meta.url).href,
+        thumb: new URL('@/assets/fakedata/fight.png', import.meta.url).href,
+    },
+    {
+        id: 4,
+        name: '芙蘿拉',
+        enName: 'Flora',
+        cv: '早見 沙織',
+        profile: '萬物復甦 / 大地之母 / 生命女神',
+        quote: '「每一粒種子，\n　都承載著跨越冬季的希望。」',
+        desc: '掌控生命週期與自然豐饒的女神。她走過的土地皆會開滿鮮花，枯萎的森林也會重新煥發生機。性格溫柔慈悲，極度厭惡破壞生態平衡的行為，是森林精靈與所有生靈的守護者。',
+        img: new URL('@/assets/fakedata/life.png', import.meta.url).href,
+        thumb: new URL('@/assets/fakedata/life.png', import.meta.url).href,
+    },
+    {
+        id: 5,
+        name: '席娜歐娜',
+        enName: 'Sena & Ona',
+        cv: '悠木 碧',
+        profile: '疾風迅雷 / 蒼穹之舞 / 雷霆女神',
+        quote: '「在雷鳴響起之前，\n　我們的箭矢早已貫穿雲霄。」',
+        desc: '共同支配風暴與雷電的瞬息女神雙胞胎。性格變幻莫測，時而如微風拂面，時而如暴雨狂瀾。她們能召喚撕裂夜空的雷霆，在瞬息之間擊碎敵人。雖然外表嬌小，卻擁有足以摧毀城邦的破壞力。',
+        img: new URL('@/assets/fakedata/windNlightening.png', import.meta.url).href,
+        thumb: new URL('@/assets/fakedata/windNlightening.png', import.meta.url).href,
+    },
+    {
+        id: 6,
+        name: '伊格尼斯',
+        enName: 'Ignis',
+        cv: '諏訪部 順一',
+        profile: '紅蓮業火 / 熔岩核心 / 毀滅之神',
+        quote: '「感受這焚盡一切的灼熱吧，\n　這就是世界重生的代價！」',
+        desc: '象徵破壞與再生的烈焰毀滅之神（男神）。他誕生於地底深處的岩漿核心，個性狂暴且充滿侵略性。他認為毀滅是為了創造更好的序幕，手中的神火能燒盡世間一切罪孽與虛偽。',
+        img: new URL('@/assets/fakedata/fire.png', import.meta.url).href,
+        thumb: new URL('@/assets/fakedata/fire.png', import.meta.url).href,
+    },
 ];
 
 const activeIndex = ref(0);
-const swiperRef = ref(null);
+const isAnimating = ref(false); // 控制動畫重播
 
-const onSwiper = (swiper) => {
-    swiperRef.value = swiper;
+const currentChart = computed(() => characters[activeIndex.value]);
+
+const switchCharacter = async (index) => {
+    if (index === activeIndex.value || isAnimating.value) return;
+
+    // 觸發離場動畫
+    isAnimating.value = true;
+
+    // 短暫延遲讓畫面重繪，製造切換感
+    setTimeout(() => {
+        activeIndex.value = index;
+        isAnimating.value = false;
+    }, 300); //配合transition
 };
-
-const onSlideChange = (swiper) => {
-    activeIndex.value = swiper.realIndex;
-};
-
-const getImageUrl = (path) => {
-    return new URL(path, import.meta.url).href;
-};
-
-const activeColor = computed(() => characters[activeIndex.value].color);
 </script>
 
 <template>
-    <section id="character" class="char-section">
-        <div class="bg-gradient"
-            :style="{ background: `radial-gradient(circle at 70% 50%, ${activeColor}33 0%, transparent 60%)` }"></div>
+    <section class="archive-section">
+        <div class="bg-pattern"></div>
         <div class="bg-noise"></div>
 
-        <div class="container">
-            <div class="section-header">
-                <h2 class="title">角色介紹 <span class="en">CHARACTER</span></h2>
-            </div>
+        <div class="page-header">
+            <h1 class="main-title">檔案</h1>
+            <span class="sub-title">ARCHIVES</span>
+            <div class="header-line"></div>
+        </div>
 
-            <div class="char-content">
+        <div class="content-container">
 
-                <div class="char-visual">
-                    <Swiper :modules="[EffectFade, Autoplay]" effect="fade" :speed="600" :allowTouchMove="false"
-                        @swiper="onSwiper" @slideChange="onSlideChange" class="char-swiper">
-                        <SwiperSlide v-for="char in characters" :key="char.id">
-                            <div class="img-wrapper">
-                                <img :src="char.img" :alt="char.name" class="char-img" />
-                            </div>
-                        </SwiperSlide>
-                    </Swiper>
-                </div>
+            <div class="info-area" :key="`info-${activeIndex}`">
+                <div class="border-decoration left-bottom"></div>
 
-                <div class="char-info">
-                    <div class="info-inner" :key="activeIndex">
-                        <div class="type-badge" :style="{ borderColor: activeColor, color: activeColor }">
-                            {{ characters[activeIndex].typeLabel }}
-                        </div>
+                <div class="info-content">
+                    <h2 class="char-name-group animate-slide-in delay-1">
+                        <div class="kanji">{{ currentChart.name }}</div>
+                        <div class="english">{{ currentChart.enName }}</div>
+                        <div class="splash-accents"></div>
+                    </h2>
 
-                        <h3 class="name">
-                            {{ characters[activeIndex].name }}
-                            <span class="sub-name">{{ characters[activeIndex].subName }}</span>
-                        </h3>
-
-                        <div class="cv-box">
-                            <span class="label">CV.</span>
-                            <span class="cv-name">{{ characters[activeIndex].cv }}</span>
-                            <button class="voice-btn">
-                                <i class="icon-sound">🔊</i> Voice
-                            </button>
-                        </div>
-
-                        <p class="desc">{{ characters[activeIndex].desc }}</p>
+                    <div class="cv-box animate-slide-in delay-2">
+                        <span class="icon">🔊</span>
+                        <span class="label">CV</span>
+                        <span class="value">{{ currentChart.cv }}</span>
                     </div>
 
-                    <div class="nav-buttons">
-                        <button class="nav-btn prev" @click="swiperRef?.slidePrev()">
-                            ← PREV
-                        </button>
-                        <div class="dots">
-                            <span v-for="(char, index) in characters" :key="char.id"
-                                :class="['dot', { active: index === activeIndex }]"
-                                @click="swiperRef?.slideTo(index)"></span>
-                        </div>
-                        <button class="nav-btn next" @click="swiperRef?.slideNext()">
-                            NEXT →
-                        </button>
+                    <div class="data-strip animate-slide-in delay-3">
+                        <span class="label">女神檔案：</span>
+                        <span class="value">{{ currentChart.profile }}</span>
+                    </div>
+
+                    <p class="description animate-fade-in delay-4">
+                        {{ currentChart.desc }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="quote-area" :key="`quote-${activeIndex}`">
+                <div class="quote-box">
+                    <svg class="border-svg" width="100%" height="100%">
+                        <rect width="100%" height="100%" class="draw-rect"></rect>
+                    </svg>
+                    <div class="vertical-text animate-text-reveal">
+                        {{ currentChart.quote }}
                     </div>
                 </div>
-
             </div>
+
+            <div class="visual-area">
+                <div class="char-img-wrapper" :class="{ 'switching': isAnimating }">
+                    <img :src="currentChart.img" :alt="currentChart.name" class="char-figure" />
+                </div>
+            </div>
+
+            <div class="nav-sidebar">
+                <div class="thumbs-stack">
+                    <button v-for="(char, index) in characters" :key="char.id" class="thumb-item"
+                        :class="{ 'active': index === activeIndex }" @click="switchCharacter(index)">
+                        <img :src="char.thumb" :alt="char.name">
+                        <div class="overlay"></div>
+                        <div class="selection-indicator"></div>
+                    </button>
+                </div>
+            </div>
+
         </div>
     </section>
 </template>
 
 <style lang="scss" scoped>
-.char-section {
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Oswald:wght@400;500&display=swap');
+
+/* --- 全域變數定義 --- */
+$primary-blue: #2ebdff;
+$accent-cyan: #2ebdff;
+$text-black: #1a1a1a;
+$bg-white: #f4f4f4;
+
+
+.archive-section {
     position: relative;
+    width: 100%;
     min-height: 100vh;
-    background-color: #050505;
+    background-color: #fcfcfc;
+    font-family: 'Noto Serif TC', serif;
+    color: #1a1a1a;
     overflow: hidden;
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 80px 0;
 }
 
-.bg-gradient {
+/* --- 背景紋理 --- */
+.bg-pattern {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    transition: background 0.8s ease;
+    /* 斜線背景 */
+    background-image: repeating-linear-gradient(45deg,
+            #f0f0f0 0px,
+            #f0f0f0 1px,
+            transparent 1px,
+            transparent 10px);
     z-index: 0;
 }
 
 .bg-noise {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-    z-index: 1;
+    inset: 0;
+    opacity: 0.03;
     pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+    z-index: 0;
 }
 
-.container {
-    max-width: 1400px;
-    width: 90%;
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-}
+/* --- 左上標題 --- */
+.page-header {
+    position: absolute;
+    top: 89px;
+    left: 5%;
+    z-index: 10;
 
-.section-header {
-    margin-bottom: 40px;
-    border-left: 5px solid var(--primary-red);
-    padding-left: 20px;
-
-    .title {
-        font-size: 42px;
-        color: white;
+    .main-title {
+        font-size: 80px;
+        font-weight: 900;
         margin: 0;
+        line-height: 0.8;
+        letter-spacing: 5px;
+        /* 文字紋理遮罩效果 (可選) */
+        background: linear-gradient(to bottom, #333 0%, #000 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-        .en {
-            font-size: 20px;
-            color: #666;
-            display: block;
-            font-weight: normal;
-            letter-spacing: 2px;
-        }
+    .sub-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 14px;
+        letter-spacing: 12px;
+        margin-left: 5px;
+        color: #888;
+        display: block;
+        margin-top: 10px;
+    }
+
+    .header-line {
+        width: 60px;
+        height: 3px;
+        background: #333;
+        margin-top: 15px;
+        margin-left: 5px;
     }
 }
 
-.char-content {
+/* --- 主要內容佈局 --- */
+.content-container {
+    position: relative;
+    z-index: 5;
+    width: 90%;
+    max-width: 1600px;
+    height: 70vh;
     display: flex;
     align-items: center;
-    gap: 50px;
-    height: 600px;
+    margin-top: 60px;
 
-    @media (max-width: 960px) {
+    @media (max-width: 1024px) {
         flex-direction: column;
         height: auto;
+        padding-bottom: 50px;
     }
 }
 
-.char-visual {
-    flex: 1;
-    width: 100%;
-    height: 100%;
+/* === 左側資訊區 === */
+.info-area {
+    flex: 0 0 35%;
     position: relative;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-    .char-swiper {
-        width: 100%;
-        height: 100%;
+    .border-decoration {
+        position: absolute;
+        border: 2px solid #2ebdff;
+        pointer-events: none;
+
+        &.left-bottom {
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 50px;
+            border-top: none;
+            border-right: none;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 300px;
+                height: 2px;
+                background: #2ebdff;
+                animation: growWidth 0.8s ease-out forwards;
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: -2px;
+                width: 2px;
+                height: 400px;
+                background: #2ebdff;
+                animation: growHeight 0.8s ease-out forwards;
+            }
+        }
     }
 
-    .img-wrapper {
+    @media (max-width: 1024px) {
+        flex: auto;
+        width: 100%;
+        padding: 20px 0;
+    }
+}
+
+.char-name-group {
+    position: relative;
+    margin-bottom: 30px;
+
+    .kanji {
+        font-size: 90px;
+        font-weight: 900;
+        line-height: 1;
+        color: #000;
+    }
+
+    .english {
+        font-family: 'Oswald', sans-serif;
+        font-size: 50px;
+        color: #D32F2F;
+        position: absolute;
+        top: 40px;
+        left: 80px;
+        opacity: 0.15;
+        z-index: -1;
+        white-space: nowrap;
+        font-weight: bold;
+    }
+
+    .splash-accents {
+        position: absolute;
+        top: -20px;
+        left: -30px;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, #00E5FF 0%, transparent 60%);
+        opacity: 0.4;
+        filter: blur(10px);
+        mix-blend-mode: multiply;
+        animation: pulse 3s infinite;
+    }
+}
+
+.cv-box {
+    display: flex;
+    align-items: center;
+    background: #1a1a1a;
+    color: white;
+    width: fit-content;
+    padding: 5px 20px;
+    margin-bottom: 25px;
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.1);
+    transform-origin: left;
+
+    .icon {
+        margin-right: 10px;
+        color: #aaa;
+    }
+
+    .label {
+        color: #00E5FF;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .value {
+        letter-spacing: 2px;
+    }
+}
+
+.data-strip {
+    background: #000;
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 14px;
+    margin-bottom: 30px;
+    display: inline-block;
+    border-left: 4px solid #2ebdff;
+
+    .label {
+        color: #00E5FF;
+        font-weight: bold;
+    }
+}
+
+.description {
+    font-size: 15px;
+    line-height: 2;
+    color: #444;
+    text-align: justify;
+    max-width: 90%;
+}
+
+/* === 中間引言區 === */
+.quote-area {
+    flex: 0 0 120px;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+
+    @media (max-width: 1024px) {
+        display: none;
+    }
+}
+
+.quote-box {
+    position: relative;
+    padding: 40px 20px;
+    width: 80px;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* SVG 繪製邊框 */
+    .border-svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+
+        .draw-rect {
+            fill: none;
+            stroke: #2ebdff;
+            stroke-width: 2;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawBorder 1.5s ease-out forwards;
+        }
+    }
+
+    .vertical-text {
+        writing-mode: vertical-rl;
+        font-size: 20px;
+        letter-spacing: 5px;
+        line-height: 2;
+        font-weight: 700;
+        color: #333;
+        white-space: pre-wrap;
+    }
+}
+
+/* === 右側圖片區 === */
+.visual-area {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.char-img-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+
+    /* 圖片基礎浮動動畫 */
+    animation: floatChar 6s ease-in-out infinite;
+
+    &.switching {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    .char-figure {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.2));
+    }
+}
+
+/* === 導航區 === */
+.nav-sidebar {
+    flex: 0 0 80px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    // border-left: 1px solid #ddd;
+    background: rgba(255, 255, 255, 0.2);
+
+    @media (max-width: 1024px) {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        flex-direction: row;
+        border-left: none;
+        border-top: 1px solid #ddd;
+        z-index: 100;
+        background: #fff;
+    }
+}
+
+.thumbs-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    @media (max-width: 1024px) {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0 20px;
+        width: 100%;
+    }
+}
+
+.thumb-item {
+    width: 60px;
+    height: 60px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid #ccc;
+    background: #000;
+
+    img {
         width: 100%;
         height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        object-fit: cover;
+        opacity: 0.6;
+        transition: 0.3s;
+        filter: grayscale(100%);
+    }
 
-        .char-img {
-            max-height: 100%;
-            max-width: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
-            animation: float 6s ease-in-out infinite;
+    /* 懸停效果 */
+    &:hover {
+        transform: scale(1.1);
+        z-index: 2;
+        border-color: #2ebdff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+        img {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+    }
+
+    /* 激活狀態 */
+    &.active {
+        transform: scale(1.15);
+        border-color: #2ebdff;
+
+        img {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        .selection-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #2ebdff;
         }
     }
 }
 
-@keyframes float {
+/* --- 動畫關鍵影格 (Keyframes) --- */
+
+/* 滑入效果 */
+.animate-slide-in {
+    opacity: 0;
+    animation: slideInLeft 0.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+}
+
+.animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.delay-1 {
+    animation-delay: 0.1s;
+}
+
+.delay-2 {
+    animation-delay: 0.2s;
+}
+
+.delay-3 {
+    animation-delay: 0.3s;
+}
+
+.delay-4 {
+    animation-delay: 0.4s;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* 邊框繪製 */
+@keyframes drawBorder {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes growWidth {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 300px;
+    }
+
+    /* 配合上面CSS設定 */
+}
+
+@keyframes growHeight {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: 400px;
+    }
+
+    /* 配合上面CSS設定 */
+}
+
+/* 文字揭示 */
+.animate-text-reveal {
+    opacity: 0;
+    animation: textDrop 0.6s 0.3s ease-out forwards;
+}
+
+@keyframes textDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 浮動呼吸 */
+@keyframes floatChar {
 
     0%,
     100% {
@@ -242,148 +698,17 @@ const activeColor = computed(() => characters[activeIndex.value].color);
     }
 }
 
-.char-info {
-    flex: 0 0 450px;
-    color: white;
+@keyframes pulse {
 
-    @media (max-width: 960px) {
-        flex: auto;
-        width: 100%;
-        text-align: center;
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
     }
 
-    .info-inner {
-        animation: slideIn 0.5s ease-out;
-    }
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.type-badge {
-    display: inline-block;
-    border: 1px solid;
-    padding: 5px 15px;
-    font-size: 14px;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    backdrop-filter: blur(5px);
-}
-
-.name {
-    font-size: 60px;
-    line-height: 1;
-    margin: 0 0 20px;
-    font-weight: 900;
-
-    .sub-name {
-        display: block;
-        font-size: 24px;
-        font-weight: normal;
-        opacity: 0.5;
-        margin-top: 5px;
-        font-family: 'Arial', sans-serif;
-    }
-
-    @media (max-width: 768px) {
-        font-size: 40px;
-    }
-}
-
-.cv-box {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
-    font-size: 18px;
-
-    @media (max-width: 960px) {
-        justify-content: center;
-    }
-
-    .label {
-        color: var(--primary-red);
-        font-weight: bold;
-    }
-
-    .voice-btn {
-        background: #222;
-        border: 1px solid #444;
-        color: #ccc;
-        padding: 5px 12px;
-        border-radius: 20px;
-        cursor: pointer;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        transition: 0.3s;
-
-        &:hover {
-            background: white;
-            color: black;
-        }
-    }
-}
-
-.desc {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #bbb;
-    margin-bottom: 50px;
-    border-top: 1px solid #333;
-    padding-top: 20px;
-}
-
-.nav-buttons {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    border-top: 1px solid #333;
-    padding-top: 30px;
-
-    @media (max-width: 960px) {
-        justify-content: center;
-    }
-
-    .nav-btn {
-        background: transparent;
-        border: none;
-        color: #666;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 16px;
-        transition: 0.3s;
-
-        &:hover {
-            color: white;
-        }
-    }
-
-    .dots {
-        display: flex;
-        gap: 10px;
-
-        .dot {
-            width: 40px;
-            height: 4px;
-            background: #333;
-            cursor: pointer;
-            transition: 0.3s;
-
-            &.active {
-                background: var(--primary-red);
-            }
-        }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
     }
 }
 </style>

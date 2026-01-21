@@ -3,8 +3,8 @@ import NavBar from '@/components/common/NavBar.vue';
 import HeroSection from '@/components/sections/HeroSection.vue';
 import NewsSection from '@/components/sections/NewsSection.vue';
 import CharacterSection from '@/components/sections/CharacterSection.vue';
+import WorldSection from '@/components/sections/WorldSection.vue';
 import FeaturesSection from '@/components/sections/FeaturesSection.vue';
-// 1. 引入 Footer
 import FooterSection from '@/components/sections/FooterSection.vue';
 
 import '@/assets/main.css';
@@ -16,7 +16,8 @@ import '@/assets/main.css';
     <main>
       <HeroSection />
       <NewsSection v-show="false" />
-      <CharacterSection v-show="false" />
+      <CharacterSection />
+      <WorldSection />
       <FeaturesSection />
     </main>
     <FooterSection />
