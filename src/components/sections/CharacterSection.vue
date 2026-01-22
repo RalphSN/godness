@@ -11,8 +11,8 @@ const characters = [
         profile: '誕生於混沌 / 黑暗源頭 / 虛無之主',
         quote: '「光芒不過是短暫的假象，\n　唯有永恆的黑暗才是真理。」',
         desc: '執掌影之國度的黑暗邪神（男神）。他誕生於宇宙初開的虛無之中，認為萬物最終都將回歸沉寂。性格冷酷且優雅，擁有操縱人心恐懼與陰影的能力，是眾神畏懼的古老存在。',
-        img: new URL('@/assets/fakedata/evil.png', import.meta.url).href,
-        thumb: new URL('@/assets/fakedata/evil.png', import.meta.url).href,
+        img: new URL('@/assets/characters/ice.png', import.meta.url).href,
+        thumb: new URL('@/assets/characters/ice.png', import.meta.url).href,
     },
     {
         id: 2,
@@ -22,8 +22,8 @@ const characters = [
         profile: '黎明之光 / 聖域守護者 / 純潔女神',
         quote: '「願暖陽照亮你靈魂的陰霾，\n　指引迷途者歸向終途。」',
         desc: '象徵希望與救贖的神聖光之女神。居住於雲端之上的白銀宮殿，負責守護世間的善良靈魂。她的聖光不僅能治癒傷痛，更能驅散最深沉的詛咒，是受人類信奉最廣的神祇。',
-        img: new URL('@/assets/fakedata/light.png', import.meta.url).href,
-        thumb: new URL('@/assets/fakedata/light.png', import.meta.url).href,
+        img: new URL('@/assets/characters/bee.png', import.meta.url).href,
+        thumb: new URL('@/assets/characters/bee.png', import.meta.url).href,
     },
     {
         id: 3,
@@ -33,8 +33,8 @@ const characters = [
         profile: '鋼鐵意志 / 戰場所向 / 鬥爭女神',
         quote: '「弱者尋找藉口，\n　強者在鮮血中鑄就傳奇。」',
         desc: '主宰戰爭與鬥爭的武勇女神。她不站在任何正義或邪惡的一方，只眷顧擁有強大意志的鬥士。性格剛毅果決，手持永不折斷的戰旗，在每一次文明的更迭與戰亂中都能見到她的身影。',
-        img: new URL('@/assets/fakedata/fight.png', import.meta.url).href,
-        thumb: new URL('@/assets/fakedata/fight.png', import.meta.url).href,
+        img: new URL('@/assets/characters/gun.png', import.meta.url).href,
+        thumb: new URL('@/assets/characters/gun.png', import.meta.url).href,
     },
     {
         id: 4,
@@ -44,8 +44,8 @@ const characters = [
         profile: '萬物復甦 / 大地之母 / 生命女神',
         quote: '「每一粒種子，\n　都承載著跨越冬季的希望。」',
         desc: '掌控生命週期與自然豐饒的女神。她走過的土地皆會開滿鮮花，枯萎的森林也會重新煥發生機。性格溫柔慈悲，極度厭惡破壞生態平衡的行為，是森林精靈與所有生靈的守護者。',
-        img: new URL('@/assets/fakedata/life.png', import.meta.url).href,
-        thumb: new URL('@/assets/fakedata/life.png', import.meta.url).href,
+        img: new URL('@/assets/characters/ice.png', import.meta.url).href,
+        thumb: new URL('@/assets/characters/ice.png', import.meta.url).href,
     },
     {
         id: 5,
@@ -55,8 +55,8 @@ const characters = [
         profile: '疾風迅雷 / 蒼穹之舞 / 雷霆女神',
         quote: '「在雷鳴響起之前，\n　我們的箭矢早已貫穿雲霄。」',
         desc: '共同支配風暴與雷電的瞬息女神雙胞胎。性格變幻莫測，時而如微風拂面，時而如暴雨狂瀾。她們能召喚撕裂夜空的雷霆，在瞬息之間擊碎敵人。雖然外表嬌小，卻擁有足以摧毀城邦的破壞力。',
-        img: new URL('@/assets/fakedata/windNlightening.png', import.meta.url).href,
-        thumb: new URL('@/assets/fakedata/windNlightening.png', import.meta.url).href,
+        img: new URL('@/assets/characters/bee.png', import.meta.url).href,
+        thumb: new URL('@/assets/characters/bee.png', import.meta.url).href,
     },
     {
         id: 6,
@@ -66,8 +66,8 @@ const characters = [
         profile: '紅蓮業火 / 熔岩核心 / 毀滅之神',
         quote: '「感受這焚盡一切的灼熱吧，\n　這就是世界重生的代價！」',
         desc: '象徵破壞與再生的烈焰毀滅之神（男神）。他誕生於地底深處的岩漿核心，個性狂暴且充滿侵略性。他認為毀滅是為了創造更好的序幕，手中的神火能燒盡世間一切罪孽與虛偽。',
-        img: new URL('@/assets/fakedata/fire.png', import.meta.url).href,
-        thumb: new URL('@/assets/fakedata/fire.png', import.meta.url).href,
+        img: new URL('@/assets/characters/gun.png', import.meta.url).href,
+        thumb: new URL('@/assets/characters/gun.png', import.meta.url).href,
     },
 ];
 
@@ -297,6 +297,10 @@ $bg-white: #f4f4f4;
                 height: 2px;
                 background: #2ebdff;
                 animation: growWidth 0.8s ease-out forwards;
+
+                @media (max-width: 1024px) {
+ 
+                }
             }
 
             &::before {
@@ -308,6 +312,10 @@ $bg-white: #f4f4f4;
                 height: 400px;
                 background: #2ebdff;
                 animation: growHeight 0.8s ease-out forwards;
+
+                @media (max-width: 1024px) {
+                    height: 20px;
+                }
             }
         }
     }
@@ -315,7 +323,7 @@ $bg-white: #f4f4f4;
     @media (max-width: 1024px) {
         flex: auto;
         width: 100%;
-        padding: 20px 0;
+        padding: 20px;
     }
 }
 
@@ -336,7 +344,7 @@ $bg-white: #f4f4f4;
         color: #D32F2F;
         position: absolute;
         top: 40px;
-        left: 80px;
+        left: 0;
         opacity: 0.15;
         z-index: -1;
         white-space: nowrap;
@@ -504,15 +512,9 @@ $bg-white: #f4f4f4;
     background: rgba(255, 255, 255, 0.2);
 
     @media (max-width: 1024px) {
-        position: fixed;
-        bottom: 0;
-        left: 0;
         width: 100%;
-        height: 80px;
+        height: auto;
         flex-direction: row;
-        border-left: none;
-        border-top: 1px solid #ddd;
-        z-index: 100;
         background: #fff;
     }
 }
@@ -524,8 +526,8 @@ $bg-white: #f4f4f4;
 
     @media (max-width: 1024px) {
         flex-direction: row;
-        overflow-x: auto;
-        padding: 0 20px;
+        justify-content: center;
+        padding: 20px;
         width: 100%;
     }
 }
