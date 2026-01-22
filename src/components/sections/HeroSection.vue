@@ -89,7 +89,7 @@ onUnmounted(() => {
                 <p class="subtitle"><img src="@/assets/img/hero-subtitle.png" alt="subtitle"></p>
 
                 <div class="btn-group">
-                    <button class="store-btn apk" @click="comingSoon"><img src="@/assets/img/apk.png" alt=""></button>
+                    <button class="store-btn apk" @click="apkDL"><img src="@/assets/img/apk.png" alt=""></button>
                     <div class="store-btns">
                         <button class="store-btn ios" @click="comingSoon">
                             <img src="@/assets/img/apple.png" alt="">
