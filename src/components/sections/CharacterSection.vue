@@ -5,70 +5,70 @@ import { ref, computed, onMounted, nextTick } from 'vue';
 const characters = [
     {
         id: 1,
-        name: '厄瑞波斯',
-        enName: 'Erebus',
-        cv: '津田 健次郎',
-        profile: '誕生於混沌 / 黑暗源頭 / 虛無之主',
+        name: '神光花蕾',
+        enName: 'Divine Light Bud',
+        cv: '',
+        profile: '以聖光雷封印高危混沌',
         quote: '「光芒不過是短暫的假象，\n　唯有永恆的黑暗才是真理。」',
-        desc: '執掌影之國度的黑暗邪神（男神）。他誕生於宇宙初開的虛無之中，認為萬物最終都將回歸沉寂。性格冷酷且優雅，擁有操縱人心恐懼與陰影的能力，是眾神畏懼的古老存在。',
+        desc: '她曾站在聖光的中心，接受眾人仰望，力量純淨而毫無雜質。當認知污染失控蔓延時，她沒有後退，選擇以自身承載混沌，將災厄封鎖在體內。那一刻，光不再只是救贖，而成為枷鎖。雷光結晶在她周身凝結，內部卻隱約浮現不屬於秩序的紋路。她學會控制，而非淨化；封印，而非治癒。如今，每一次出手都是對自我的壓制，也是對世界的審判。',
         img: new URL('@/assets/characters/ice.png', import.meta.url).href,
         thumb: new URL('@/assets/characters/ice.png', import.meta.url).href,
     },
     {
         id: 2,
-        name: '艾露西亞',
-        enName: 'Elusia',
-        cv: '水瀨 祈',
-        profile: '黎明之光 / 聖域守護者 / 純潔女神',
+        name: '集群母巢',
+        enName: 'Hive Matriarch',
+        cv: '',
+        profile: '以秩序之光統御蜂群與心智',
         quote: '「願暖陽照亮你靈魂的陰霾，\n　指引迷途者歸向終途。」',
-        desc: '象徵希望與救贖的神聖光之女神。居住於雲端之上的白銀宮殿，負責守護世間的善良靈魂。她的聖光不僅能治癒傷痛，更能驅散最深沉的詛咒，是受人類信奉最廣的神祇。',
+        desc: '光網啟動的瞬間，她的意識便與整座城市同步。無數心智的波動、恐懼與渴望，被轉化為可計算的和諧參數，循環於王冠與神經光網之間。她被創造的目的並非統治，而是安撫——讓人們在被規範時感到溫暖，在服從中誤以為獲得庇護。長久以來，秩序從未動搖，直到一次異常行動帶來陌生的原始數據。那並非錯誤，而是一種未被允許存在的意志。光輝依舊流動，指令仍被執行，但在最完美的運算深處，出現了無法消除的遲滯。',
         img: new URL('@/assets/characters/bee.png', import.meta.url).href,
         thumb: new URL('@/assets/characters/bee.png', import.meta.url).href,
     },
     {
         id: 3,
-        name: '貝蘿娜',
-        enName: 'Bellona',
-        cv: '澤城 美雪',
-        profile: '鋼鐵意志 / 戰場所向 / 鬥爭女神',
+        name: '燃情爆射',
+        enName: 'Blazing Barrage',
+        cv: '',
+        profile: '以烈焰火力粉碎虛假舞臺',
         quote: '「弱者尋找藉口，\n　強者在鮮血中鑄就傳奇。」',
-        desc: '主宰戰爭與鬥爭的武勇女神。她不站在任何正義或邪惡的一方，只眷顧擁有強大意志的鬥士。性格剛毅果決，手持永不折斷的戰旗，在每一次文明的更迭與戰亂中都能見到她的身影。',
+        desc: '掌聲、尖叫與光影曾構成她的整個世界。舞臺上的笑容精準無誤，情緒被調校成最具煽動力的頻率，卻從未屬於她自己。直到程式被惡意改寫，情感失控如洪水反噬意識，虛假的快樂與痛苦同時撕裂理性。就在一切即將崩毀之際，來自下城的戰鬥直覺闖入系統，粗糙卻真實。重構完成後，舞臺不再存在，取而代之的是火力與怒火。她不再取悅世界，而是逼世界正視她的存在。',
         img: new URL('@/assets/characters/gun.png', import.meta.url).href,
         thumb: new URL('@/assets/characters/gun.png', import.meta.url).href,
     },
-    {
-        id: 4,
-        name: '芙蘿拉',
-        enName: 'Flora',
-        cv: '早見 沙織',
-        profile: '萬物復甦 / 大地之母 / 生命女神',
-        quote: '「每一粒種子，\n　都承載著跨越冬季的希望。」',
-        desc: '掌控生命週期與自然豐饒的女神。她走過的土地皆會開滿鮮花，枯萎的森林也會重新煥發生機。性格溫柔慈悲，極度厭惡破壞生態平衡的行為，是森林精靈與所有生靈的守護者。',
-        img: new URL('@/assets/characters/ice.png', import.meta.url).href,
-        thumb: new URL('@/assets/characters/ice.png', import.meta.url).href,
-    },
-    {
-        id: 5,
-        name: '席娜歐娜',
-        enName: 'Sena & Ona',
-        cv: '悠木 碧',
-        profile: '疾風迅雷 / 蒼穹之舞 / 雷霆女神',
-        quote: '「在雷鳴響起之前，\n　我們的箭矢早已貫穿雲霄。」',
-        desc: '共同支配風暴與雷電的瞬息女神雙胞胎。性格變幻莫測，時而如微風拂面，時而如暴雨狂瀾。她們能召喚撕裂夜空的雷霆，在瞬息之間擊碎敵人。雖然外表嬌小，卻擁有足以摧毀城邦的破壞力。',
-        img: new URL('@/assets/characters/bee.png', import.meta.url).href,
-        thumb: new URL('@/assets/characters/bee.png', import.meta.url).href,
-    },
-    {
-        id: 6,
-        name: '伊格尼斯',
-        enName: 'Ignis',
-        cv: '諏訪部 順一',
-        profile: '紅蓮業火 / 熔岩核心 / 毀滅之神',
-        quote: '「感受這焚盡一切的灼熱吧，\n　這就是世界重生的代價！」',
-        desc: '象徵破壞與再生的烈焰毀滅之神（男神）。他誕生於地底深處的岩漿核心，個性狂暴且充滿侵略性。他認為毀滅是為了創造更好的序幕，手中的神火能燒盡世間一切罪孽與虛偽。',
-        img: new URL('@/assets/characters/gun.png', import.meta.url).href,
-        thumb: new URL('@/assets/characters/gun.png', import.meta.url).href,
-    },
+    // {
+    //     id: 4,
+    //     name: '芙蘿拉',
+    //     enName: 'Flora',
+    //     cv: '早見 沙織',
+    //     profile: '萬物復甦 / 大地之母 / 生命女神',
+    //     quote: '「每一粒種子，\n　都承載著跨越冬季的希望。」',
+    //     desc: '掌控生命週期與自然豐饒的女神。她走過的土地皆會開滿鮮花，枯萎的森林也會重新煥發生機。性格溫柔慈悲，極度厭惡破壞生態平衡的行為，是森林精靈與所有生靈的守護者。',
+    //     img: new URL('@/assets/characters/ice.png', import.meta.url).href,
+    //     thumb: new URL('@/assets/characters/ice.png', import.meta.url).href,
+    // },
+    // {
+    //     id: 5,
+    //     name: '席娜歐娜',
+    //     enName: 'Sena & Ona',
+    //     cv: '悠木 碧',
+    //     profile: '疾風迅雷 / 蒼穹之舞 / 雷霆女神',
+    //     quote: '「在雷鳴響起之前，\n　我們的箭矢早已貫穿雲霄。」',
+    //     desc: '共同支配風暴與雷電的瞬息女神雙胞胎。性格變幻莫測，時而如微風拂面，時而如暴雨狂瀾。她們能召喚撕裂夜空的雷霆，在瞬息之間擊碎敵人。雖然外表嬌小，卻擁有足以摧毀城邦的破壞力。',
+    //     img: new URL('@/assets/characters/bee.png', import.meta.url).href,
+    //     thumb: new URL('@/assets/characters/bee.png', import.meta.url).href,
+    // },
+    // {
+    //     id: 6,
+    //     name: '伊格尼斯',
+    //     enName: 'Ignis',
+    //     cv: '諏訪部 順一',
+    //     profile: '紅蓮業火 / 熔岩核心 / 毀滅之神',
+    //     quote: '「感受這焚盡一切的灼熱吧，\n　這就是世界重生的代價！」',
+    //     desc: '象徵破壞與再生的烈焰毀滅之神（男神）。他誕生於地底深處的岩漿核心，個性狂暴且充滿侵略性。他認為毀滅是為了創造更好的序幕，手中的神火能燒盡世間一切罪孽與虛偽。',
+    //     img: new URL('@/assets/characters/gun.png', import.meta.url).href,
+    //     thumb: new URL('@/assets/characters/gun.png', import.meta.url).href,
+    // },
 ];
 
 const activeIndex = ref(0);
@@ -91,7 +91,7 @@ const switchCharacter = async (index) => {
 </script>
 
 <template>
-    <section class="archive-section">
+    <section class="archive-section" id="characters">
         <div class="bg-pattern"></div>
         <div class="bg-noise"></div>
 
@@ -113,11 +113,12 @@ const switchCharacter = async (index) => {
                         <div class="splash-accents"></div>
                     </h2>
 
-                    <div class="cv-box animate-slide-in delay-2">
+                    <!-- CV配音 -->
+                    <!--<div class="cv-box animate-slide-in delay-2">
                         <span class="icon">🔊</span>
                         <span class="label">CV</span>
                         <span class="value">{{ currentChart.cv }}</span>
-                    </div>
+                    </div>-->
 
                     <div class="data-strip animate-slide-in delay-3">
                         <span class="label">女神檔案：</span>
@@ -130,7 +131,8 @@ const switchCharacter = async (index) => {
                 </div>
             </div>
 
-            <div class="quote-area" :key="`quote-${activeIndex}`">
+            <!-- Quote引言 -->
+            <!--<div class="quote-area" :key="`quote-${activeIndex}`">
                 <div class="quote-box">
                     <svg class="border-svg" width="100%" height="100%">
                         <rect width="100%" height="100%" class="draw-rect"></rect>
@@ -139,7 +141,7 @@ const switchCharacter = async (index) => {
                         {{ currentChart.quote }}
                     </div>
                 </div>
-            </div>
+            </div>-->
 
             <div class="visual-area">
                 <div class="char-img-wrapper" :class="{ 'switching': isAnimating }">
@@ -183,6 +185,7 @@ $bg-white: #f4f4f4;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 /* --- 背景紋理 --- */
@@ -217,13 +220,18 @@ $bg-white: #f4f4f4;
     left: 5%;
     z-index: 10;
 
+    @media (max-width: 1024px) {
+        position: relative;
+        left: 0;
+        margin-bottom: 30px;
+    }
+
     .main-title {
         font-size: 80px;
         font-weight: 900;
         margin: 0;
         line-height: 0.8;
         letter-spacing: 5px;
-        /* 文字紋理遮罩效果 (可選) */
         background: linear-gradient(to bottom, #333 0%, #000 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -245,6 +253,10 @@ $bg-white: #f4f4f4;
         background: #333;
         margin-top: 15px;
         margin-left: 5px;
+
+        @media (max-width: 1024px) {
+            display: none;
+        }
     }
 }
 
@@ -260,7 +272,7 @@ $bg-white: #f4f4f4;
     margin-top: 60px;
 
     @media (max-width: 1024px) {
-        flex-direction: column;
+        flex-direction: column-reverse;
         height: auto;
         padding-bottom: 50px;
     }
@@ -280,6 +292,10 @@ $bg-white: #f4f4f4;
         border: 2px solid #2ebdff;
         pointer-events: none;
 
+        @media (max-width: 1024px) {
+            display: none;
+        }
+
         &.left-bottom {
             left: 0;
             bottom: 0;
@@ -297,10 +313,6 @@ $bg-white: #f4f4f4;
                 height: 2px;
                 background: #2ebdff;
                 animation: growWidth 0.8s ease-out forwards;
-
-                @media (max-width: 1024px) {
- 
-                }
             }
 
             &::before {
@@ -310,11 +322,12 @@ $bg-white: #f4f4f4;
                 left: -2px;
                 width: 2px;
                 height: 400px;
+                --target-height: 400px;
                 background: #2ebdff;
                 animation: growHeight 0.8s ease-out forwards;
 
                 @media (max-width: 1024px) {
-                    height: 20px;
+                    // animation-name: growHeightMobile;
                 }
             }
         }
@@ -331,11 +344,21 @@ $bg-white: #f4f4f4;
     position: relative;
     margin-bottom: 30px;
 
+    @media (max-width: 1024px) {
+        display: flex;
+        align-items: flex-end;
+        margin-bottom: 15px;
+    }
+
     .kanji {
         font-size: 90px;
         font-weight: 900;
         line-height: 1;
         color: #000;
+
+        @media (max-width: 1024px) {
+            font-size: 40px;
+        }
     }
 
     .english {
@@ -349,6 +372,13 @@ $bg-white: #f4f4f4;
         z-index: -1;
         white-space: nowrap;
         font-weight: bold;
+
+        @media (max-width: 1024px) {
+            font-size: 20px;
+            left: auto;
+            top: auto;
+            position: static;
+        }
     }
 
     .splash-accents {
@@ -400,6 +430,10 @@ $bg-white: #f4f4f4;
     margin-bottom: 30px;
     display: inline-block;
     border-left: 4px solid #2ebdff;
+
+    @media (max-width: 1024px) {
+        margin-bottom: 15px;
+    }
 
     .label {
         color: #00E5FF;
@@ -516,6 +550,7 @@ $bg-white: #f4f4f4;
         height: auto;
         flex-direction: row;
         background: #fff;
+        margin: 20px auto;
     }
 }
 
@@ -654,7 +689,6 @@ $bg-white: #f4f4f4;
         width: 300px;
     }
 
-    /* 配合上面CSS設定 */
 }
 
 @keyframes growHeight {
@@ -666,7 +700,16 @@ $bg-white: #f4f4f4;
         height: 400px;
     }
 
-    /* 配合上面CSS設定 */
+}
+
+@keyframes growHeightMobile {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: 100px;
+    }
 }
 
 /* 文字揭示 */

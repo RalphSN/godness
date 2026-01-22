@@ -1,7 +1,7 @@
 <script setup>
 import NavBar from '@/components/common/NavBar.vue';
 import HeroSection from '@/components/sections/HeroSection.vue';
-import NewsSection from '@/components/sections/NewsSection.vue';
+// import NewsSection from '@/components/sections/NewsSection.vue';
 import CharacterSection from '@/components/sections/CharacterSection.vue';
 import WorldSection from '@/components/sections/WorldSection.vue';
 import FeaturesSection from '@/components/sections/FeaturesSection.vue';
@@ -15,9 +15,8 @@ import '@/assets/main.css';
     <NavBar />
     <main>
       <HeroSection />
-      <NewsSection v-show="false" />
-      <CharacterSection />
       <WorldSection />
+      <CharacterSection />
       <FeaturesSection />
     </main>
     <FooterSection />

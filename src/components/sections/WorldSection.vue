@@ -14,8 +14,8 @@ const swiperInstance = ref(null);
 
 // 動態引入圖片 (對應檔案結構 src/assets/img/)
 const getImageUrl = (name) => {
-    console.log(new URL(`../../assets/img/${name}`, import.meta.url).href);
-    return new URL(`../../assets/img/${name}`, import.meta.url).href;
+    // console.log(new URL(`../../assets/world/${name}`, import.meta.url).href);
+    return new URL(`../../assets/world/${name}`, import.meta.url).href;
 
 };
 
@@ -23,31 +23,38 @@ const getImageUrl = (name) => {
 const mockApiResponse = [
     {
         id: 1,
-        image: getImageUrl('swiper1.jpg'),
-        title: '覺醒力量，改寫命運',
-        subTitle: 'Awakening Power',
-        content: '在這個混沌的世界中，潛藏著未知的力量。少女們身穿戰鬥裝束，為了守護最後的希望而戰。每一次的覺醒，都是對命運的抗爭。'
+        image: getImageUrl('1.png'),
+        title: '被編碼的幸福',
+        subTitle: '',
+        content: '地表崩壞後，人類社會全面依賴「知識晶片」。統治階級掌握「高維晶片」，負責制定真理與秩序；居民則被植入「限制晶片」，活在被修剪過的歷史、被設計的快樂與永恆滿足中。世界表面穩定、井然有序，沒有人質疑「幸福」的來源。'
     },
     {
         id: 2,
-        image: getImageUrl('swiper2.jpg'),
-        title: '探索秘境，收集奇遇',
-        subTitle: 'Explore The Unknown',
-        content: '廢墟之下掩埋著舊時代的文明遺產。深入無人踏足的禁區，尋找失落的科技與魔法，將其轉化為對抗強敵的利刃。'
+        image: getImageUrl('2.png'),
+        title: '共鳴者的覺醒',
+        subTitle: '',
+        content: '一群女性因漏洞、事故或未知的神經共鳴，短暫接觸到未受限的晶片資料。虛假世界瞬間瓦解，她們看見真實天空的死寂、人類被當作能源與數據來源的殘酷事實。覺醒不是解放，而是精神崩潰與存在意義的全面崩塌。'
     },
     {
         id: 3,
-        image: getImageUrl('swiper3.jpg'),
-        title: '策略搭配，決定勝負',
-        subTitle: 'Strategic Battle',
-        content: '單純的力量不足以生存。分析敵人的弱點，靈活運用屬性剋制與技能連攜。戰場上的瞬息萬變，唯有智者能掌握勝利的關鍵。'
+        image: getImageUrl('3.png'),
+        title: '日常中的裂縫',
+        subTitle: '',
+        content: '她們嘗試回到原本的生活，卻發現限制晶片開始「修正」她們的情緒與記憶。細微的異常逐漸浮現：夢境失控、快樂延遲、系統警告。她們彼此確認對方的存在，意識到原來自己並非個案，而是被忽略的錯誤集合。'
     },
     {
         id: 4,
-        image: getImageUrl('swiper4.jpg'),
-        title: '角色養成，強者崛起',
-        subTitle: 'Character Growth',
-        content: '與性格迥異的夥伴們建立羈絆，解鎖專屬劇情與強大技能。從默默無聞的新兵，成長為獨當一面的傳奇指揮官。'
+        image: getImageUrl('4.png'),
+        title: '被設計的任務',
+        subTitle: '',
+        content: '一次看似普通的晶片偷運行動展開。任務內容合理、報酬穩定，卻暗藏多層監控與誘導。行動途中，她們逐步發現這是統治階級用來篩選、定位並回收「異常個體」的陷阱。真相不再只是被看見，而是親手主動撕裂。'
+    },
+    {
+        id: 4,
+        image: getImageUrl('5.png'),
+        title: '選擇的代價',
+        subTitle: '',
+        content: '她們站在抉擇點：配合系統、抹除覺醒，換取社會的短暫和平；或公開真相，引發失控、鎮壓，甚至人類文明的重置。抗爭不再是英雄式反抗，而是對「我的存在是否值得延續？」的集體回答。故事，在此正式開始。'
     }
 ];
 
@@ -86,7 +93,7 @@ const currentContent = computed(() => {
 </script>
 
 <template>
-    <section class="world-view-section">
+    <section class="world-view-section" id="world">
         <div class="bg-scanlines"></div>
         <div class="bg-vignette"></div>
 
@@ -180,7 +187,7 @@ $text-white: #f0f0f0;
 .world-view-section {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    // min-height: 100vh;
     background-color: $bg-dark;
     color: $text-white;
     font-family: 'Noto Serif TC', serif;
@@ -237,13 +244,13 @@ $text-white: #f0f0f0;
         font-weight: 900;
         margin: 0;
         letter-spacing: 5px;
-        text-shadow: 4px 4px 0px rgba(180, 0, 0, 0.2);
+        text-shadow: 4px 4px 0px rgba(0, 114, 180, 0.432);
     }
 
     .sub-title-wrapper {
         position: relative;
         display: inline-block;
-        margin-top: 10px;
+        // margin-top: 10px;
 
         .sub-title {
             font-family: sans-serif;
@@ -507,7 +514,7 @@ $text-white: #f0f0f0;
 .pagination-nums {
     position: absolute;
     right: 0;
-    bottom: 0;
+    bottom: -30px;
     font-family: sans-serif;
     font-size: 14px;
     color: #666;

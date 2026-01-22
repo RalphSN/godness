@@ -13,8 +13,8 @@ let observer = null;
 
 const menuItems = [
     { name: '首頁', link: '#hero' },
-    // { name: '消息', link: '#news' },
-    // { name: '角色', link: '#character' },
+    { name: '世界觀', link: '#world' },
+    { name: '檔案', link: '#characters' },
     { name: '特色', link: '#features' },
 ];
 
